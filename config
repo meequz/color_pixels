@@ -1,0 +1,15 @@
+resx = 300
+resy = 200
+pix_q = 132						#~ pixel quantity
+pix_around_q = 100				#~ quantity of pixels around family from which is average value calculating
+prev_pix_q = int(pix_q / 3)		#~ how many pixs in every pix's memory of previous families
+backcolor = (2, 2, 2)			#~ background color
+scale = 2
+everyframe = 1
+
+
+
+#~ TODO:
+#~	- more last families
+#~	- scale 2x, 3x
+#~	- output of frame number in one line
