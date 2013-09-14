@@ -2,12 +2,10 @@
 # coding: utf-8
 from initstuff import *
 
-#~ [ Pixel(None) for cn in range(int(pix_q)) ]
+#~ [ Pixel(color=None) for cn in range(int(pix_q)) ]
 [ Pixel([255,255,0]) for cn in range(int(pix_q/3)) ]
 [ Pixel([0,255,255]) for cn in range(int(pix_q/3)) ]
 [ Pixel([255,0,255]) for cn in range(int(pix_q/3)) ]
-#~ [ Pixel([255,255,255]) for cn in range(int(pix_q/2)) ]
-#~ [ Pixel([0,255,0]) for cn in range(int(pix_q/2)) ]
 field.create_screen()
 
 running = True
@@ -18,7 +16,7 @@ while running:
 			pix.done = False
 			continue
 		
-		if len(pix.family) == 1:
+		if len(pix.family) == 1:						#~ if alone
 			target = pix.find_nearest_free_pix()
 			wantx, wanty = pix.get_next_pos_to(target)
 			if pix.can_move_to(wantx, wanty):
@@ -28,7 +26,7 @@ while running:
 			if pix.reached(target):
 				pix.join_family_of(target)
 				
-		elif len(pix.family) == 3:
+		elif len(pix.family) == 3:						#~ if it a family
 			diffpix = pix.get_the_most_different_family_member(pix_around_q)
 			newcolor = diffpix.get_average_of_other_family()
 			diffpix.setcolor(newcolor)

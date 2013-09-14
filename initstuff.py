@@ -50,7 +50,6 @@ class Pixel:
 			
 	def __init__(self, color):
 		Pixel.pixlist.append(self)
-		#~ self.color = random.choice( ([255,255,255], [0,0,0]) )
 		self.color = color if color else [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
 		self.x, self.y = random.choice(Pixel.poslist)
 		del Pixel.poslist[Pixel.poslist.index((self.x,self.y))]
@@ -95,14 +94,13 @@ class Pixel:
 	
 	def find_nearest_free_pix(self):
 		sortedpixels = self.search(pix_q)
-		for pix in sortedpixels:
-			if len(pix.family) < 3  and  pix not in self.prevpixels:
-				if len(pix.family) == 2  or  random.choice(range(2)):
-					return pix
 		#~ for pix in sortedpixels:
 			#~ if len(pix.family) < 3  and  pix not in self.prevpixels:
-				#~ return pix
-		#~ return False
+				#~ if len(pix.family) == 2  or  random.choice(range(2)):
+					#~ return pix
+		for pix in sortedpixels:
+			if len(pix.family) < 3  and  pix not in self.prevpixels:
+				return pix
 	
 	def reached(self, target):
 		return  not abs(target.x-self.x) > 1  and  not abs(target.y-self.y) > 1
@@ -112,7 +110,7 @@ class Pixel:
 	
 	def make_random_step(self):
 		possibilities = [(self.x+i1, self.y+i2) for i1 in (-1, 0, 1) for i2 in (-1, 0, 1)]
-		for cn in range(10):
+		for cn in range(6):
 			pos = random.choice(possibilities)
 			if self.can_move_to(*pos):
 				self.move(*pos)
@@ -123,19 +121,19 @@ class Pixel:
 		self.family.append(target)
 		target.family.append(self)
 		target.done = True
-		if len(target.family) > 2:		#~ толькі што стала 3
+		if len(target.family) > 2:		#~ if it is 3 now
 			third = [pix for pix in target.family if pix != self and pix != target][0]
 			self.family.append(third)
 			third.family.append(self)
 			third.done = True
 	
 	def get_the_most_different_family_member(self, pix_around_q):
-		#~ лічым сярэдні колер навакольных
+		#~ calculate average color of around pixels
 		around_colors = [pix.color for pix in self.search(pix_around_q + 3)[3:]]
 		channels = list(zip(*around_colors))
 		around_average = [sum(channels[cn])/pix_around_q for cn in range(3)]
 		sum_of_around_average = sum(around_average)
-		#~ знаходзім самы адрозны
+		#~ find the most different one
 		maximpix = self.family[0]
 		for pix in self.family:
 			if abs(sum(pix.color) - sum_of_around_average) > sum(maximpix.color):
