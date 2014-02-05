@@ -3,10 +3,8 @@
 import random, pygame
 from collections import OrderedDict
 import time, os
+from config import *		#~ read varibles
 
-#~ read varibles
-for line in open('config'):
-	exec(line[:-1])
 
 #~ game field interface
 class Field:
@@ -50,7 +48,7 @@ class Pixel:
 			
 	def __init__(self, color):
 		Pixel.pixlist.append(self)
-		self.color = color if color else [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+		self.color = color if color else [random.randint(0, 255) for i in range(3)]
 		self.x, self.y = random.choice(Pixel.poslist)
 		del Pixel.poslist[Pixel.poslist.index((self.x,self.y))]
 		self.family = [self]
@@ -66,8 +64,8 @@ class Pixel:
 	
 	def search(self, n):
 		pix_deltas = {}
-		temppixlist = [pix for pix in Pixel.pixlist if pix != self]
-		for pix in temppixlist:
+		for pix in Pixel.pixlist:
+			if pix is self: continue
 			delta = abs(self.x - pix.x) + abs(self.y - pix.y)
 			pix_deltas[delta] = pix
 		res = []
@@ -94,10 +92,6 @@ class Pixel:
 	
 	def find_nearest_free_pix(self):
 		sortedpixels = self.search(pix_q)
-		#~ for pix in sortedpixels:
-			#~ if len(pix.family) < 3  and  pix not in self.prevpixels:
-				#~ if len(pix.family) == 2  or  random.choice(range(2)):
-					#~ return pix
 		for pix in sortedpixels:
 			if len(pix.family) < 3  and  pix not in self.prevpixels:
 				return pix

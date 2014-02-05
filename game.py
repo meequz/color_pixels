@@ -1,12 +1,20 @@
 #! /usr/bin/env python3
 # coding: utf-8
 from initstuff import *
+import sys
 
 #~ [ Pixel(color=None) for cn in range(int(pix_q)) ]
 [ Pixel([255,255,0]) for cn in range(int(pix_q/3)) ]
 [ Pixel([0,255,255]) for cn in range(int(pix_q/3)) ]
 [ Pixel([255,0,255]) for cn in range(int(pix_q/3)) ]
 field.create_screen()
+
+
+def print_in_same_place(string):
+	string = str(string) + '\r'
+	sys.stdout.write(string)
+	sys.stdout.flush()
+
 
 running = True
 framenum = 0
@@ -40,6 +48,16 @@ while running:
 			running = False
 	
 	framenum += 1
-	print('frame {0}'.format(framenum))
+	print_in_same_place('frame {0}'.format(framenum))
 	field.drawframe(framenum)					#~ update the screen
 	#~ field.saveframe(framenum)
+
+
+colors = [pix.color for pix in Pixel.pixlist]
+mean_color = []
+for i in range(3):
+	cols = [col[0] for col in colors]
+	mean = sum(cols) / len(cols)
+	mean_color.append(int(mean))
+
+print('Stopped at frame {}, mean color {}'.format(framenum, mean_color))
