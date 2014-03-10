@@ -73,7 +73,7 @@ class Pixel:
 			if idx >= n: break
 			res.append(pix_deltas[key_delta])
 		return res
-		
+	
 	def get_next_pos_to(self, target):
 		#~ print('self, target:', (self.x, self.y), (target.x, target.y))
 		if self.x < target.x:
@@ -89,6 +89,23 @@ class Pixel:
 		else:
 			y3 = self.y
 		return x3, y3
+	
+	#~ def find_nearest_free_pix(self):
+		#~ sortedpixels = self.search(pix_q)
+		#~ for pix in sortedpixels:
+			#~ if len(pix.family) < 3  and  pix not in self.prevpixels:
+				#~ return pix
+	
+	def find_nearest_free_pix(self):
+		minim = resx + resy - 1
+		for pix in Pixel.pixlist:
+			deltax,  deltay  =  abs(self.x - pix.x),  abs(self.y - pix.y)
+			if len(pix.family) < 3  and  pix not in self.prevpixels:
+				if deltax <= 1  and  deltay <= 1: return pix
+				if delta < minim:
+					minim = delta
+					res = pix
+		return res
 	
 	def find_nearest_free_pix(self):
 		sortedpixels = self.search(pix_q)

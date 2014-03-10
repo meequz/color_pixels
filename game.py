@@ -26,13 +26,14 @@ while running:
 		
 		if len(pix.family) == 1:						#~ if alone
 			target = pix.find_nearest_free_pix()
+			if pix.reached(target):
+				pix.join_family_of(target)
+			
 			wantx, wanty = pix.get_next_pos_to(target)
 			if pix.can_move_to(wantx, wanty):
 				pix.move(wantx, wanty)
 			else:
 				pix.make_random_step()
-			if pix.reached(target):
-				pix.join_family_of(target)
 				
 		elif len(pix.family) == 3:						#~ if it a family
 			diffpix = pix.get_the_most_different_family_member(pix_around_q)
@@ -48,6 +49,11 @@ while running:
 			running = False
 	
 	framenum += 1
+	
+	# remove it
+	if framenum == 101: running = False
+	
+	
 	print_in_same_place('frame {0}'.format(framenum))
 	field.drawframe(framenum)					#~ update the screen
 	#~ field.saveframe(framenum)
