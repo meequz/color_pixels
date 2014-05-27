@@ -50,8 +50,8 @@ while running:
 	
 	framenum += 1
 	
-	# remove it
-	if framenum == 101: running = False
+	# for time testing purposes
+	#~ if framenum == 101: running = False
 	
 	
 	print_in_same_place('frame {0}'.format(framenum))
