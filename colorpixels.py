@@ -1,21 +1,23 @@
 #! /usr/bin/env python3
 # coding: utf-8
-import pixelqt
 import random
 from collections import OrderedDict
 
+import pixelqt
+
 
 class Pixel:
+    
     def __init__(self, color):
         self.color = color if color else [random.randint(0, 255) for i in range(3)]
         self.x, self.y = random.choice(poslist)
         del poslist[poslist.index((self.x,self.y))]
         self.family = [self]
         self.prevpixels = []
-        
+    
     def move(self, newx, newy):
         self.x, self.y = newx, newy
-        
+    
     def setcolor(self, newcolor):
         self.color = newcolor
     
@@ -174,14 +176,14 @@ cp_game.init_controls('resolution', 'zoom', 'draw_each', 'save_each', 'over')
 
 # pixel quantity
 cp_game.add_own_num(name='Pixel quantity', default=701, need_to_restart=True,
-                      minimum=1, maximum=9999, step=1)
+                    minimum=1, maximum=9999, step=1)
 
 # quantity of pixels around family from which is average value calculating
 cp_game.add_own_num(name='Pixels around', default=10, need_to_restart=False,
-                      minimum=1, maximum=9999, step=1)
+                    minimum=1, maximum=9999, step=1)
 
 # how many pixs in every pix's memory of previous families
 cp_game.add_own_num(name='Previous pixels', default=698, need_to_restart=False,
-                      minimum=1, maximum=9999, step=1)
+                    minimum=1, maximum=9999, step=1)
 
 cp_game.run()
